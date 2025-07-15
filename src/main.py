@@ -1,5 +1,10 @@
+from cli.cli import CLI
+
+
 def main():
-    print('init')
+    cli = CLI()
+    cli._run()
+
 
 if __name__ == '__main__':
     main()

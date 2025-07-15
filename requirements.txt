@@ -1,0 +1,4 @@
+pyMeow>=1.73.42
+prompt_toolkit>=3.0.51
+rich>=14.0.0
+tqdm>=4.67.1
