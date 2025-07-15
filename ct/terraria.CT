@@ -70,6 +70,75 @@ Terraria.Player::Update+FE62: 8B 95 C0 F5 FF FF  - mov edx,[ebp-00000A40]
 }
 </AssemblerScript>
     </CheatEntry>
+    <CheatEntry>
+      <ID>6</ID>
+      <Description>"maxhealth"</Description>
+      <VariableType>Auto Assembler Script</VariableType>
+      <AssemblerScript>{ Game   : Terraria.exe
+  Version: 
+  Date   : 2025-07-15
+  Author : Kenshi
+
+  This script does blah blah blah
+}
+
+[ENABLE]
+
+aobscan(INJECT,89 86 04 04 00 00 8B) // should be unique
+alloc(newmem,$1000)
+
+label(code)
+label(return)
+
+newmem:
+
+code:
+ // mov [esi+00000404],eax
+  jmp return
+
+INJECT:
+  jmp newmem
+  nop
+return:
+registersymbol(INJECT)
+
+[DISABLE]
+
+INJECT:
+  db 89 86 04 04 00 00
+
+unregistersymbol(INJECT)
+dealloc(newmem)
+
+{
+// ORIGINAL CODE - INJECTION POINT: Terraria.Player::ResetEffects+2D4
+
+Terraria.Player::ResetEffects+29F: 88 96 95 08 00 00     - mov [esi+00000895],dl
+Terraria.Player::ResetEffects+2A5: 88 96 7C 08 00 00     - mov [esi+0000087C],dl
+Terraria.Player::ResetEffects+2AB: 88 96 96 08 00 00     - mov [esi+00000896],dl
+Terraria.Player::ResetEffects+2B1: 83 BE 30 05 00 00 00  - cmp dword ptr [esi+00000530],00
+Terraria.Player::ResetEffects+2B8: 7E 06                 - jle Terraria.Player::ResetEffects+2C0
+Terraria.Player::ResetEffects+2BA: FF 8E 30 05 00 00     - dec [esi+00000530]
+Terraria.Player::ResetEffects+2C0: 33 D2                 - xor edx,edx
+Terraria.Player::ResetEffects+2C2: 89 96 54 01 00 00     - mov [esi+00000154],edx
+Terraria.Player::ResetEffects+2C8: 88 96 97 08 00 00     - mov [esi+00000897],dl
+Terraria.Player::ResetEffects+2CE: 8B 86 00 04 00 00     - mov eax,[esi+00000400]
+// ---------- INJECTING HERE ----------
+Terraria.Player::ResetEffects+2D4: 89 86 04 04 00 00     - mov [esi+00000404],eax
+// ---------- DONE INJECTING  ----------
+Terraria.Player::ResetEffects+2DA: 8B 86 10 04 00 00     - mov eax,[esi+00000410]
+Terraria.Player::ResetEffects+2E0: 89 86 14 04 00 00     - mov [esi+00000414],eax
+Terraria.Player::ResetEffects+2E6: 88 96 61 07 00 00     - mov [esi+00000761],dl
+Terraria.Player::ResetEffects+2EC: 88 96 62 07 00 00     - mov [esi+00000762],dl
+Terraria.Player::ResetEffects+2F2: 88 96 63 07 00 00     - mov [esi+00000763],dl
+Terraria.Player::ResetEffects+2F8: 88 96 64 07 00 00     - mov [esi+00000764],dl
+Terraria.Player::ResetEffects+2FE: 88 96 5D 07 00 00     - mov [esi+0000075D],dl
+Terraria.Player::ResetEffects+304: 88 96 75 08 00 00     - mov [esi+00000875],dl
+Terraria.Player::ResetEffects+30A: D9 E8                 - fld1 
+Terraria.Player::ResetEffects+30C: D9 9E 78 04 00 00     - fstp dword ptr [esi+00000478]
+}
+</AssemblerScript>
+    </CheatEntry>
   </CheatEntries>
   <CheatCodes>
     <CodeEntry>
@@ -249,6 +318,32 @@ Terraria.Player::Update+FE62: 8B 95 C0 F5 FF FF  - mov edx,[ebp-00000A40]
         <Byte>C0</Byte>
         <Byte>F5</Byte>
         <Byte>FF</Byte>
+      </After>
+    </CodeEntry>
+    <CodeEntry>
+      <Description>Change of mov [esi+00000404],eax</Description>
+      <AddressString>2A01DC0C</AddressString>
+      <Before>
+        <Byte>86</Byte>
+        <Byte>00</Byte>
+        <Byte>04</Byte>
+        <Byte>00</Byte>
+        <Byte>00</Byte>
+      </Before>
+      <Actual>
+        <Byte>89</Byte>
+        <Byte>86</Byte>
+        <Byte>04</Byte>
+        <Byte>04</Byte>
+        <Byte>00</Byte>
+        <Byte>00</Byte>
+      </Actual>
+      <After>
+        <Byte>8B</Byte>
+        <Byte>86</Byte>
+        <Byte>10</Byte>
+        <Byte>04</Byte>
+        <Byte>00</Byte>
       </After>
     </CodeEntry>
   </CheatCodes>
