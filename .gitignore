@@ -1,0 +1,5 @@
+# Environment
+.env/
+
+# Python's interpreter garbage
+__pycache__/
