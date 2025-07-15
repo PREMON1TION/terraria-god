@@ -1,0 +1,256 @@
+<?xml version="1.0" encoding="utf-8"?>
+<CheatTable CheatEngineTableVersion="46">
+  <CheatEntries>
+    <CheatEntry>
+      <ID>3</ID>
+      <Description>"godmode"</Description>
+      <VariableType>Auto Assembler Script</VariableType>
+      <AssemblerScript>{ Game   : Terraria.exe
+  Version: 
+  Date   : 2025-07-15
+  Author : Kenshi
+
+  This script does blah blah blah
+}
+
+[ENABLE]
+
+aobscan(INJECT,8B 80 08 04 00 00 8B 95 C0) // should be unique
+alloc(newmem,$1000)
+
+label(code)
+label(return)
+
+newmem:
+
+code:
+  //mov eax,[eax+00000408]
+  jmp return
+
+INJECT:
+  jmp newmem
+  nop
+return:
+registersymbol(INJECT)
+
+[DISABLE]
+
+INJECT:
+  db 8B 80 08 04 00 00
+
+unregistersymbol(INJECT)
+dealloc(newmem)
+
+{
+// ORIGINAL CODE - INJECTION POINT: Terraria.Player::Update+FE2A
+
+Terraria.Player::Update+FDFF: 39 09              - cmp [ecx],ecx
+Terraria.Player::Update+FE01: E8 2A C5 22 F2     - call Terraria.Mount::get_Type
+Terraria.Player::Update+FE06: 83 F8 08           - cmp eax,08
+Terraria.Player::Update+FE09: 75 19              - jne Terraria.Player::Update+FE24
+Terraria.Player::Update+FE0B: 8B 85 C0 F5 FF FF  - mov eax,[ebp-00000A40]
+Terraria.Player::Update+FE11: 8B 88 18 01 00 00  - mov ecx,[eax+00000118]
+Terraria.Player::Update+FE17: 8B 95 C0 F5 FF FF  - mov edx,[ebp-00000A40]
+Terraria.Player::Update+FE1D: 39 09              - cmp [ecx],ecx
+Terraria.Player::Update+FE1F: E8 7C CF 22 F2     - call Terraria.Mount::UseDrill
+Terraria.Player::Update+FE24: 8B 85 C0 F5 FF FF  - mov eax,[ebp-00000A40]
+// ---------- INJECTING HERE ----------
+Terraria.Player::Update+FE2A: 8B 80 08 04 00 00  - mov eax,[eax+00000408]
+// ---------- DONE INJECTING  ----------
+Terraria.Player::Update+FE30: 8B 95 C0 F5 FF FF  - mov edx,[ebp-00000A40]
+Terraria.Player::Update+FE36: 3B 82 04 04 00 00  - cmp eax,[edx+00000404]
+Terraria.Player::Update+FE3C: 7E 18              - jle Terraria.Player::Update+FE56
+Terraria.Player::Update+FE3E: 8B 85 C0 F5 FF FF  - mov eax,[ebp-00000A40]
+Terraria.Player::Update+FE44: 8B 80 04 04 00 00  - mov eax,[eax+00000404]
+Terraria.Player::Update+FE4A: 8B 95 C0 F5 FF FF  - mov edx,[ebp-00000A40]
+Terraria.Player::Update+FE50: 89 82 08 04 00 00  - mov [edx+00000408],eax
+Terraria.Player::Update+FE56: 8B 85 C0 F5 FF FF  - mov eax,[ebp-00000A40]
+Terraria.Player::Update+FE5C: 8B 80 0C 04 00 00  - mov eax,[eax+0000040C]
+Terraria.Player::Update+FE62: 8B 95 C0 F5 FF FF  - mov edx,[ebp-00000A40]
+}
+</AssemblerScript>
+    </CheatEntry>
+  </CheatEntries>
+  <CheatCodes>
+    <CodeEntry>
+      <Description>Change of sub [edx+00000408],eax</Description>
+      <AddressString>2AFC9F29</AddressString>
+      <Before>
+        <Byte>95</Byte>
+        <Byte>9C</Byte>
+        <Byte>FD</Byte>
+        <Byte>FF</Byte>
+        <Byte>FF</Byte>
+      </Before>
+      <Actual>
+        <Byte>29</Byte>
+        <Byte>82</Byte>
+        <Byte>08</Byte>
+        <Byte>04</Byte>
+        <Byte>00</Byte>
+        <Byte>00</Byte>
+      </Actual>
+      <After>
+        <Byte>83</Byte>
+        <Byte>7D</Byte>
+        <Byte>0C</Byte>
+        <Byte>FF</Byte>
+        <Byte>0F</Byte>
+      </After>
+    </CodeEntry>
+    <CodeEntry>
+      <Description>Change of cmp dword ptr [ebp+0C],-01</Description>
+      <AddressString>2AFC9F2F</AddressString>
+      <Before>
+        <Byte>82</Byte>
+        <Byte>08</Byte>
+        <Byte>04</Byte>
+        <Byte>00</Byte>
+        <Byte>00</Byte>
+      </Before>
+      <Actual>
+        <Byte>83</Byte>
+        <Byte>7D</Byte>
+        <Byte>0C</Byte>
+        <Byte>FF</Byte>
+      </Actual>
+      <After>
+        <Byte>0F</Byte>
+        <Byte>85</Byte>
+        <Byte>A2</Byte>
+        <Byte>00</Byte>
+        <Byte>00</Byte>
+      </After>
+    </CodeEntry>
+    <CodeEntry>
+      <Description>Change of mov edx,[ebp-00000264]</Description>
+      <AddressString>2AFC9F23</AddressString>
+      <Before>
+        <Byte>DC</Byte>
+        <Byte>F2</Byte>
+        <Byte>0F</Byte>
+        <Byte>2C</Byte>
+        <Byte>C0</Byte>
+      </Before>
+      <Actual>
+        <Byte>8B</Byte>
+        <Byte>95</Byte>
+        <Byte>9C</Byte>
+        <Byte>FD</Byte>
+        <Byte>FF</Byte>
+        <Byte>FF</Byte>
+      </Actual>
+      <After>
+        <Byte>29</Byte>
+        <Byte>82</Byte>
+        <Byte>08</Byte>
+        <Byte>04</Byte>
+        <Byte>00</Byte>
+      </After>
+    </CodeEntry>
+    <CodeEntry>
+      <Description>Change of cmp byte ptr [eax+0000081A],00</Description>
+      <AddressString>2AFC9F6F</AddressString>
+      <Before>
+        <Byte>85</Byte>
+        <Byte>9C</Byte>
+        <Byte>FD</Byte>
+        <Byte>FF</Byte>
+        <Byte>FF</Byte>
+      </Before>
+      <Actual>
+        <Byte>80</Byte>
+        <Byte>B8</Byte>
+        <Byte>1A</Byte>
+        <Byte>08</Byte>
+        <Byte>00</Byte>
+        <Byte>00</Byte>
+        <Byte>00</Byte>
+      </Actual>
+      <After>
+        <Byte>75</Byte>
+        <Byte>0C</Byte>
+        <Byte>C7</Byte>
+        <Byte>85</Byte>
+        <Byte>68</Byte>
+      </After>
+    </CodeEntry>
+    <CodeEntry>
+      <Description>Change of jne Terraria.Player::Hurt+12B3</Description>
+      <AddressString>2AFC9F33</AddressString>
+      <Before>
+        <Byte>00</Byte>
+        <Byte>83</Byte>
+        <Byte>7D</Byte>
+        <Byte>0C</Byte>
+        <Byte>FF</Byte>
+      </Before>
+      <Actual>
+        <Byte>0F</Byte>
+        <Byte>85</Byte>
+        <Byte>A2</Byte>
+        <Byte>00</Byte>
+        <Byte>00</Byte>
+        <Byte>00</Byte>
+      </Actual>
+      <After>
+        <Byte>8B</Byte>
+        <Byte>85</Byte>
+        <Byte>9C</Byte>
+        <Byte>FD</Byte>
+        <Byte>FF</Byte>
+      </After>
+    </CodeEntry>
+    <CodeEntry>
+      <Description>Change of cmp byte ptr [eax+17],00</Description>
+      <AddressString>2AFCB3F9</AddressString>
+      <Before>
+        <Byte>A1</Byte>
+        <Byte>78</Byte>
+        <Byte>5E</Byte>
+        <Byte>79</Byte>
+        <Byte>05</Byte>
+      </Before>
+      <Actual>
+        <Byte>80</Byte>
+        <Byte>78</Byte>
+        <Byte>17</Byte>
+        <Byte>00</Byte>
+      </Actual>
+      <After>
+        <Byte>74</Byte>
+        <Byte>03</Byte>
+        <Byte>5E</Byte>
+        <Byte>5D</Byte>
+        <Byte>C3</Byte>
+      </After>
+    </CodeEntry>
+    <CodeEntry>
+      <Description>Change of mov eax,[eax+00000408]</Description>
+      <AddressString>35D3FE6A</AddressString>
+      <Before>
+        <Byte>85</Byte>
+        <Byte>C0</Byte>
+        <Byte>F5</Byte>
+        <Byte>FF</Byte>
+        <Byte>FF</Byte>
+      </Before>
+      <Actual>
+        <Byte>8B</Byte>
+        <Byte>80</Byte>
+        <Byte>08</Byte>
+        <Byte>04</Byte>
+        <Byte>00</Byte>
+        <Byte>00</Byte>
+      </Actual>
+      <After>
+        <Byte>8B</Byte>
+        <Byte>95</Byte>
+        <Byte>C0</Byte>
+        <Byte>F5</Byte>
+        <Byte>FF</Byte>
+      </After>
+    </CodeEntry>
+  </CheatCodes>
+  <UserdefinedSymbols/>
+</CheatTable>
